@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Molecules de Base</title>
+	<link rel="stylesheet" href="assets/css/style.max.css">
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r75/three.js"></script>
+
+	<script src="assets/js/OrthographicTrackballControls.js"></script>
+	<script src="assets/js/TrackballControls.js"></script>
+	<script src="assets/js/CSS2DRenderer.js"></script>
+	<script src="assets/js/PDBLoader.js"></script>
+
+</head>
+<body>
+
+<div class="o-choices o-choices--scroll u-tl0 js-menu js-choices" style="width: 15%"></div>
+<div class="js-container"></div>
+
+<div class=" u-tr" style="width: 15%">
+	<div class="o-block o-block--padded">
+	<div><img class="js-cram" src="assets/png/basics/cram/CH4.png" alt=""></div>
+
+	<div class="o-block__sep"></div>
+
+	<div class="u-atom u-atom--c">C</div>
+	<div class="u-atom u-atom--l">Cl</div>
+	<div class="u-atom u-atom--h">H</div>
+	<div class="u-atom u-atom--n">N</div>
+	<div class="u-atom u-atom--o">O</div>
+	</div>
+		<div class="o-block">
+	<div class="o-choices js-choices" >
+		<label class="o-choices__item is-selected">
+			<input class="js-origin" type="radio" name="type" value="atombonds" checked>
+			<img src="assets/png/choices/atombounds.png" alt="" style="width: 50%;">
+		</label>
+		<label class="o-choices__item">
+			<input type="radio" name="type" value="atom">
+			<img src="assets/png/choices/atom.png" alt="" style="width: 50%;">
+		</label>
+		<label class="o-choices__item">
+			<input type="radio" name="type" value="bonds">
+			<img src="assets/png/choices/bounds.png" alt="" style="width: 50%;">
+		</label>
+	</div>
+	</div>
+</div>
+
+<div class="u-main-title js-title">Méthane - CH<sub>4</sub></div>
+
+<div class="o-banner js-banner">
+	<div class="o-banner__logo">
+		<img src="assets/png/misc/logo.png">
+	</div>
+</div>
+<script>
+    (function ($) {
+        $(function () {
+            $('.js-menu').css('overflow', 'auto');
+            $(window).on('resize', resizeMenu).trigger('resize');
+
+            $('.js-choices').each(function () {
+                var $list = $(this);
+                var $inputs = $list.find('input');
+                $inputs.data('list', $list).on('change', onChoicesInputChange);
+                $inputs.parents('.is-selected').find('input').change();
+            });
+        });
+
+        function resizeMenu() {
+            $('.js-menu').height(
+                $(window).height() - $('.js-banner').height()
+            );
+        }
+
+        function onChoicesInputChange(e) {
+            console.log(e);
+            var $tg = $(e.currentTarget);
+            var $list = $tg.data('list');
+            $list.find('.is-selected').removeClass('is-selected');
+            $tg.parent().addClass('is-selected');
+
+            if (e.target.name == 'model') {
+                let val = $tg.val();
+
+                $('.js-cram').attr('src', 'assets/png/basics/cram/' + val + '.png');
+
+                var elements = ['H', 'C', 'O', 'N', 'L'];
+                for (var i = 0; i<elements.length; i++) {
+                    $('.u-atom--' + elements[i].toLowerCase())[val.indexOf(elements[i]) > -1 ? 'show' : 'hide']();
+                }
+
+            }
+
+            if (e.target.name == 'type'){
+
+                console.log(e.target.value);
+                switch(e.target.value)
+                {
+                    case "atom":
+                        showAtoms();
+                        window.visualizationType = 0;
+                        break;
+                    case "bonds":
+                        showBonds();
+                        window.visualizationType = 1;
+                        break;
+                    case "atombonds":
+                        showAtomsBonds();
+                        window.visualizationType = 2;
+                        break;
+                }
+
+            }
+
+
+        }
+
+    })(jQuery);
+
+</script>
+<script src="assets/js/Atom.js"></script>
+</body>
+</html>

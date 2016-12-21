@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Structures Cristallines</title>
+    <link rel="stylesheet" href="assets/css/style.max.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r75/three.js"></script>
+
+    <script src="assets/js/OrthographicTrackballControls.js"></script>
+    <script src="assets/js/OrbitControls.js"></script>
+    <script src="assets/js/TrackballControls.js"></script>
+    <script src="assets/js/CSS2DRenderer.js"></script>
+    <script src="assets/js/PDBLoader.js"></script>
+
+</head>
+<body>
+
+<div class="o-choices u-tl0 js-menu js-choices" style="width: 15%"></div>
+<div class="js-container"></div>
+
+<div class="u-main-title js-title">Réseau Primitif</div>
+
+<div class="o-banner js-banner">
+    <div class="o-banner__logo">
+        <img src="assets/png/misc/logo.png">
+    </div>
+</div>
+
+
+<script>
+    (function ($) {
+        $(function () {
+            $('.js-menu').css('overflow', 'auto');
+            $(window).on('resize', resizeMenu).trigger('resize');
+
+            $('.js-choices').each(function () {
+                var $list = $(this);
+                var $inputs = $list.find('input');
+                $inputs.data('list', $list).on('change', onChoicesInputChange);
+            });
+        });
+
+        function resizeMenu() {
+            $('.js-menu').height(
+                $(window).height() - $('.js-banner').height()
+            );
+        }
+
+        function onChoicesInputChange(e) {
+            var $tg = $(e.currentTarget);
+            var $list = $tg.data('list');
+            $list.find('.is-selected').removeClass('is-selected');
+            $tg.parent().addClass('is-selected');
+        }
+
+    })(jQuery);
+</script>
+<script src="assets/js/Atom.js"></script>
+</body>
+</html>
